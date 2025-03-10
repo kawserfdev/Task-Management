@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Task Manager',
       theme: ThemeData(primarySwatch: Colors.blue),
       onGenerateRoute: AppRoutes.generateRoute,
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.initialRoute,
     );
   }
 }
