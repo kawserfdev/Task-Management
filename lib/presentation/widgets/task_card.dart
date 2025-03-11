@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:task_management/core/utils/app_colors.dart';
 import '../../routes/app_routes.dart';
 import '../../data/models/task_model.dart';
 
-class TaskCard extends StatelessWidget {
-  final TaskModel task; // Changed from Map<String, dynamic>
-
-  TaskCard({required this.task});
+class TaskCard extends ConsumerWidget {
+  final TaskModel task;
+  TaskCard({super.key, required this.task});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          AppRoutes.taskDetail,
-          arguments: {
-            'title': task.title,
-            'description': task.description,
-            'status': task.isCompleted ? "Completed" : "Todo",
-          },
-        );
+        Navigator.pushNamed(context, AppRoutes.addTask, arguments: task);
       },
       child: Card(
+        color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Color(0XFFDCE1EF)),
           borderRadius: BorderRadius.circular(12),
         ),
-        margin: EdgeInsets.symmetric(vertical: 8),
+
+        margin: EdgeInsets.only(top: 8),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,30 +33,37 @@ class TaskCard extends StatelessWidget {
                 task.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: 5),
               Text(
                 task.description,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Color(0XFF6E7591),
+                  color: AppColor.greyText,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(height: 12),
               Row(
                 children: [
-                  Icon(Icons.timer_outlined, color: Colors.grey),
-                  SizedBox(width: 8),
+                  Icon(Icons.timer_outlined, color: Colors.black, size: 12),
+                  SizedBox(width: 6),
                   Text(
                     DateFormat('MMMM dd, yyyy').format(task.endDate),
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: AppColor.greyText,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   Spacer(),
                   Container(
-                    height: 30,
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color:
@@ -73,9 +74,11 @@ class TaskCard extends StatelessWidget {
                     child: Text(
                       task.isCompleted ? "Completed" : "Todo",
                       style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
                         color:
                             task.isCompleted
-                                ? Colors.green
+                                ? Color(0xFF009F76)
                                 : AppColor.primaryColor,
                       ),
                     ),

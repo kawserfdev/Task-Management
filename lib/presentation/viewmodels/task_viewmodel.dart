@@ -12,6 +12,7 @@ class TaskViewModel extends ChangeNotifier {
   final TaskRepositoryImpl taskRepository;
   List<TaskModel> _tasks = [];
   bool _isLoading = true;
+
   TaskViewModel(this.taskRepository) {
     loadTasks();
   }
@@ -21,15 +22,22 @@ class TaskViewModel extends ChangeNotifier {
 
   Future<void> addTask(TaskModel task) async {
     await taskRepository.addTask(task);
-    
     await loadTasks();
-    
+  }
+
+  Future<void> updateTask(String id, TaskModel updatedTask) async {
+    await taskRepository.updateTask(id, updatedTask);
+    await loadTasks(); 
+  }
+
+  Future<void> deleteTask(String id) async {
+    await taskRepository.deleteTask(id);
+    await loadTasks();
   }
 
   Future<void> loadTasks() async {
     _isLoading = true;
     notifyListeners();
-
     try {
       _tasks = await taskRepository.getTasks();
     } catch (e) {

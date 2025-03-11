@@ -22,13 +22,24 @@ void main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Task Manager',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        scaffoldBackgroundColor: Color(0xFFDFE4F1),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color(0xFFDFE4F1),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
       onGenerateRoute: AppRoutes.generateRoute,
       initialRoute: AppRoutes.initialRoute,
     );

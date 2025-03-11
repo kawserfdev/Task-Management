@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:task_management/core/utils/app_colors.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -26,7 +27,7 @@ class TextFieldWidget extends StatelessWidget {
     this.maxline = 1,
     this.inputFormatters,
     this.focusNode,
-    this.onTap
+    this.onTap,
   });
 
   @override
@@ -54,10 +55,7 @@ class TextFieldWidget extends StatelessWidget {
             hintText: hintText,
             hintStyle: const TextStyle(color: Colors.grey),
             focusColor: Colors.orange,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(color: Color(0xFFDCE1EF)),
@@ -80,7 +78,11 @@ class TextFieldWidget extends StatelessWidget {
             ),
             suffixIcon: suffixIcon,
           ),
-          
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            color: AppColor.greyText,
+          ),
           validator: validator,
           textInputAction: TextInputAction.next,
           autofocus: false,
