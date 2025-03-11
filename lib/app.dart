@@ -1,69 +1,72 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management/presentation/views/add_task_screen.dart';
 import 'package:task_management/presentation/views/calendar_screen.dart';
 import 'package:task_management/presentation/views/home_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class DashBoardActivity extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _DashBoardActivityState createState() => _DashBoardActivityState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 1; // Default selected index
-  DateTime _selectedDate = DateTime.now();
-
-  void _onDateSelected(DateTime date) {
-    setState(() {
-      _selectedDate = date;
-    });
-  }
+class _DashBoardActivityState extends State<DashBoardActivity> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
-      bottomNavigationBar: CurvedNavigationBar( 
-        backgroundColor: Colors.transparent,
-        color: Colors.white,
-        buttonBackgroundColor: Colors.white,
-        height: 60,
-        animationDuration: Duration(milliseconds: 300),
-        index: _selectedIndex,
-        items: <Widget>[
-          Icon(Icons.home, size: 30, color: _selectedIndex == 0 ? Colors.purple : Colors.grey),
-          Icon(Icons.list_alt, size: 30, color: _selectedIndex == 1 ? Colors.purple : Colors.grey),
-          Icon(Icons.calendar_today, size: 30, color: _selectedIndex == 2 ? Colors.purple : Colors.grey),
-        ],
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+      body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
+      bottomNavigationBar: CreateBottombar(context),
+    );
+  }
+
+  final _widgetOptions = [HomePage(), AddTaskScreen(), CalendarScreen()];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Container CreateBottombar(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+        child: BottomNavigationBar(
+          
+          backgroundColor: Colors.white,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon:
+                  _selectedIndex == 0
+                      ? Image.asset("assets/images/home-active.png")
+                      : Image.asset("assets/images/home.png"),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon:
+                  _selectedIndex == 1
+                      ? Image.asset("assets/images/clipboard-active.png")
+                      : Image.asset("assets/images/clipboard.png"),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon:
+                  _selectedIndex == 2
+                      ? Image.asset("assets/images/calendar-active.png")
+                      : Image.asset("assets/images/calendar.png"),
+              label: "",
+            ),
+          ],
+          
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          onTap: _onItemTapped,
+        ),
       ),
-      body: [
-          HomePage(),
-          AddTaskScreen(),
-          CalendarScreen(),
-        ][_selectedIndex],
-      
-      //  Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     SizedBox(height: 50),
-      //     Padding(
-      //       padding: const EdgeInsets.all(16.0),
-      //       child: Text(
-      //         "Select a Date",
-      //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      //       ),
-      //     ),
-      //     // DatePickerWidget(
-      //     //   selectedDate: _selectedDate,
-      //     //   onDateSelected: _onDateSelected,
-      //     // ),
-      //   ],
-      // ),
     );
   }
 }

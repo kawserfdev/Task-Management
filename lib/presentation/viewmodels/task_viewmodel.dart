@@ -11,8 +11,7 @@ final taskViewModelProvider = ChangeNotifierProvider((ref) {
 class TaskViewModel extends ChangeNotifier {
   final TaskRepositoryImpl taskRepository;
   List<TaskModel> _tasks = [];
-  bool _isLoading = true;  // Set loading state initially
-
+  bool _isLoading = true;
   TaskViewModel(this.taskRepository) {
     loadTasks();
   }
@@ -22,12 +21,14 @@ class TaskViewModel extends ChangeNotifier {
 
   Future<void> addTask(TaskModel task) async {
     await taskRepository.addTask(task);
+    
     await loadTasks();
+    
   }
 
   Future<void> loadTasks() async {
     _isLoading = true;
-    notifyListeners(); // Notify UI to show loading state
+    notifyListeners();
 
     try {
       _tasks = await taskRepository.getTasks();
@@ -35,7 +36,7 @@ class TaskViewModel extends ChangeNotifier {
       debugPrint("Error loading tasks: $e");
     } finally {
       _isLoading = false;
-      notifyListeners(); // Notify UI to stop loading
+      notifyListeners();
     }
   }
 }

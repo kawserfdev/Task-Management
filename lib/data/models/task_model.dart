@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
 
+part "task_model.g.dart"; // Important: This tells Hive to generate the adapter
 
 @HiveType(typeId: 0)
-class TaskModel {
+class TaskModel extends HiveObject { // Extend HiveObject for better performance
   @HiveField(0)
   final String title;
 

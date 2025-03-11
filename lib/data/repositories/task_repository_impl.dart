@@ -7,6 +7,7 @@ class TaskRepositoryImpl {
   TaskRepositoryImpl({required this.hiveService});
 
   Future<void> addTask(TaskModel task) async {
+    print("task added");
     await hiveService.addTask(task);
   }
 

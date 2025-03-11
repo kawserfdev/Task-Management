@@ -15,7 +15,7 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case initialRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => DashBoardActivity());
       case home:
         return MaterialPageRoute(builder: (_) => HomePage());
       case addTask:
