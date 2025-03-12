@@ -19,48 +19,26 @@ class _DashBoardActivityState extends State<DashBoardActivity> {
     _selectedIndex = widget.initialIndex;
   }
 
+  List<String> navIconActive = [
+    "assets/images/home-active.png",
+    "assets/images/clipboard-active.png",
+    "assets/images/calendar-active.png",
+  ];
+  List<String> navIcon = [
+    "assets/images/home.png",
+    "assets/images/clipboard.png",
+    "assets/images/calendar.png",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
-      bottomNavigationBar:
-      //  FloatingActionButton(
-      //   onPressed: () {},
-      //   child: ClipRRect(
-      //     borderRadius: const BorderRadius.all(Radius.circular(141)),
-      //     child: BottomNavigationBar(
-      //       backgroundColor: Colors.white,
-      //       items: <BottomNavigationBarItem>[
-      //         BottomNavigationBarItem(
-      //           icon:
-      //               _selectedIndex == 0
-      //                   ? Image.asset("assets/images/home-active.png")
-      //                   : Image.asset("assets/images/home.png"),
-      //           label: "",
-      //         ),
-      //         BottomNavigationBarItem(
-      //           icon:
-      //               _selectedIndex == 1
-      //                   ? Image.asset("assets/images/clipboard-active.png")
-      //                   : Image.asset("assets/images/clipboard.png"),
-      //           label: "",
-      //         ),
-      //         BottomNavigationBarItem(
-      //           icon:
-      //               _selectedIndex == 2
-      //                   ? Image.asset("assets/images/calendar-active.png")
-      //                   : Image.asset("assets/images/calendar.png"),
-      //           label: "",
-      //         ),
-      //       ],
-      //       currentIndex: _selectedIndex,
-      //       showSelectedLabels: false,
-      //       showUnselectedLabels: false,
-      //       onTap: _onItemTapped,
-      //     ),
-      //   ),
-      // ),
-      CreateBottombar(context),
+      body: Stack(
+        children: [
+          Center(child: _widgetOptions.elementAt(_selectedIndex)),
+          Align(alignment: Alignment.bottomCenter, child: _navBar()),
+        ],
+      ),
     );
   }
 
@@ -72,44 +50,42 @@ class _DashBoardActivityState extends State<DashBoardActivity> {
     });
   }
 
-  // ignore: non_constant_identifier_names
-  Container CreateBottombar(BuildContext context) {
+  Widget _navBar() {
     return Container(
-      clipBehavior: Clip.none,
-      padding: EdgeInsets.all(20),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(141)),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon:
-                  _selectedIndex == 0
-                      ? Image.asset("assets/images/home-active.png")
-                      : Image.asset("assets/images/home.png"),
-              label: "",
+      height: 68,
+      margin: EdgeInsets.only(right: 20, left: 20, bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFECECEC),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(navIcon.length, (index) {
+          bool isSelected = _selectedIndex == index;
+          return GestureDetector(
+            onTap: () => _onItemTapped(index),
+            child: Container(
+              height: 60,
+              decoration: BoxDecoration(
+                color: isSelected ? Color(0xFFF0F2F8) : null,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 26),
+              child: Image.asset(
+                isSelected ? navIconActive[index] : navIcon[index],
+              ),
             ),
-            BottomNavigationBarItem(
-              icon:
-                  _selectedIndex == 1
-                      ? Image.asset("assets/images/clipboard-active.png")
-                      : Image.asset("assets/images/clipboard.png"),
-              label: "",
-            ),
-            BottomNavigationBarItem(
-              icon:
-                  _selectedIndex == 2
-                      ? Image.asset("assets/images/calendar-active.png")
-                      : Image.asset("assets/images/calendar.png"),
-              label: "",
-            ),
-          ],
-
-          currentIndex: _selectedIndex,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          onTap: _onItemTapped,
-        ),
+          );
+        }),
       ),
     );
   }
